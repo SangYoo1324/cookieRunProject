@@ -7,10 +7,14 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
 public class mouseEventGame implements MouseListener {
+	JButton JB;
 	ImageIcon II;
-	
-	public mouseEventGame(ImageIcon II) {
+	ImageIcon IIR;
+	int num;
+	public mouseEventGame(JButton JB,ImageIcon II, ImageIcon IIR) {
+		this.JB = JB;
 		this.II = II;
+		this.IIR = IIR;
 	}
 
 	@Override
@@ -24,12 +28,14 @@ public class mouseEventGame implements MouseListener {
 	@Override
 	public void mousePressed(MouseEvent e) {
 		// TODO Auto-generated method stub
-		II= new ImageIcon(Main.class.getResource("/Images/eclairIcon.png"));
+		JB.setIcon(II);
+		System.out.println("pressed");
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		// TODO Auto-generated method stub
+		JB.setIcon(IIR);
+		System.out.println("released");
 		
 	}
 

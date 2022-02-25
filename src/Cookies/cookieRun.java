@@ -1,30 +1,46 @@
 package Cookies;
 
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionAdapter;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+
+
 
 public class cookieRun extends JFrame {
 
 private Image screenImage;
 private Graphics screenGraphic;
+
+//backGround Image
 private Image background = new ImageIcon(Main.class.getResource("/Images/MainPAge.jpg")).getImage();
+
+//startButton
 private ImageIcon startButtonBasicImage= new ImageIcon(Main.class.getResource("/Images/startButtonBasic.png"));
 private JButton startButton = new JButton(startButtonBasicImage);
+
+//menu Bar
+private JLabel menuBar = new JLabel(new ImageIcon(Main.class.getResource("/Images/menuBar1920.png")));
+
+//exit Button
+private ImageIcon exitButtonEnteredImage = new ImageIcon(Main.class.getResource("/Images/ExitButtonEntered.png"));//draw withpaintComponents
+private ImageIcon exitButtonBasicImage = new ImageIcon(Main.class.getResource("/Images/ExitButtonBasic.png"));
+private JButton exitButton = new JButton(exitButtonBasicImage);
 mapScreen ms = new mapScreen();
 GameScreen gs = new GameScreen();
-//public static GameScreen gs;
-//public static mapScreen ms;
+
 
 public static  boolean isStageSelect = false;
 public static boolean isGameScreen = false;
@@ -45,6 +61,52 @@ public static boolean isMainScreen =true;
 			setLayout(null);//important
 		
 			
+			
+			exitButton.setVisible(true);
+			exitButton.setBounds(1750,0,50,50);
+			exitButton.setBorderPainted(false);
+			exitButton.setContentAreaFilled(false);
+			exitButton.setFocusPainted(false);
+			exitButton.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseEntered(MouseEvent e) {
+					exitButton.setIcon(exitButtonEnteredImage);
+					exitButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
+					//Music
+				}
+				@Override
+				public void mouseExited(MouseEvent e) {
+					exitButton.setIcon(exitButtonBasicImage);
+				}
+				@Override 
+				public void mousePressed(MouseEvent e) {
+					try {
+						Thread.sleep(100);
+					}catch(InterruptedException ex) {
+						ex.printStackTrace();
+					}
+					System.exit(0);//JFrame 
+				}
+				
+			});
+			add(exitButton);
+			
+			menuBar.setBounds(0,0,1920,50);
+			menuBar.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mousePressed(MouseEvent e) {
+					
+				}
+				
+			});
+			menuBar.addMouseMotionListener(new MouseMotionAdapter() {
+				@Override
+				public void mouseDragged(MouseEvent e) {
+					
+				}
+				
+			});
+			add(menuBar);
 
 			startButton.setBounds(40 ,330,400, 100);
 			startButton.setBorderPainted(false);
@@ -124,8 +186,7 @@ public static boolean isMainScreen =true;
 		
 		
 		add(startExitPanel);
-			
-		
+
 		
 	
 		

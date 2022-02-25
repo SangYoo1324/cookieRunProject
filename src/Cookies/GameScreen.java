@@ -23,13 +23,14 @@ JPanel backLine =  new JPanel();
 JPanel monsterLine = new JPanel();
 ArrayList<cookie> cookieList = new ArrayList<cookie>();
 ArrayList<Monster> monsterList = new ArrayList<Monster>();
-//mouseEventGame meg;
+
 
 
 private int mouseX, mouseY;
-public int Idrag=0;
+//public int Idrag=0;
 public GameScreen(){
-
+	
+//cookie Infos inside the ArrayList
 	cookieList.add(new cookie("frostQueen","frostQueen.png","frostQueenIcon.png","Freeze","Zero", 10, 100,"back") );
 	cookieList.add(new cookie("eclair","elcair.png","eclairIcon.png","amplify","Shield", 10, 100,"front") );
 	cookieList.add(new cookie("pureVanilla","pureVanilla.png","pureVanillaIcon.png","heal","defBuff", 10, 100, "back") );
@@ -43,30 +44,54 @@ public GameScreen(){
 	monsterList.add(new Monster("doggieMonster.png","defaultAttack",10,100,"back"));
 	monsterList.add(new Monster("doggieMonster.png","defaultAttack",10,100,"back"));
 	
+	ImageIcon charImage[] = new ImageIcon[cookieList.size()];
+	ImageIcon charIcon[] = new ImageIcon[cookieList.size()];
+	JButton buttonIcon[]  = new JButton[cookieList.size()];
+	JButton charButton[] = new JButton[cookieList.size()];
 	//charIconSlot
 	charIconSlot.setLayout(new GridLayout(1,cookieList.size(), 1, 1));
 	charIconSlot.setBounds(600, 600, 500,400);
 	charIconSlot.setBackground(new Color(0,0,0,0));
 	//charIconSlot.setVisible(true);
 	
-	ImageIcon charIcon[] = new ImageIcon[cookieList.size()];
-	JButton buttonIcon[]  = new JButton[cookieList.size()];
-	int[] buttonX = new int[cookieList.size()];
-	int[] buttonY = new int[cookieList.size()];
- //	for(Idrag=0; Idrag<cookieList.size(); Idrag++) {
-		while(Idrag<cookieList.size()) {
-		charIcon[Idrag]=  new ImageIcon(Main.class.getResource("/Images/"+cookieList.get(Idrag).getCookieIcon()));
-		buttonIcon[Idrag] = new JButton(charIcon[Idrag]);
-		buttonIcon[Idrag].setVisible(true);
-		buttonIcon[Idrag].setBorderPainted(false);
-		buttonIcon[Idrag].setContentAreaFilled(false);
-		buttonIcon[Idrag].setFocusPainted(false);
-	//	mouseEventGame meg = new mouseEventGame(charIcon[Idrag]);
-		buttonIcon[Idrag].addMouseListener(new mouseEventGame(charIcon[Idrag]));
+	int ig =0;
+		while(ig<cookieList.size()) {
+		charIcon[ig]=  new ImageIcon(Main.class.getResource("/Images/"+cookieList.get(ig).getCookieIcon()));
+		charImage[ig]= new ImageIcon(Main.class.getResource("/Images/"+cookieList.get(ig).getCookieImage()));
+		buttonIcon[ig] = new JButton(charIcon[ig]);
+		buttonIcon[ig].setVisible(true);
+		buttonIcon[ig].setBorderPainted(false);
+		buttonIcon[ig].setContentAreaFilled(false);
+		buttonIcon[ig].setFocusPainted(false);
 	
-		charIconSlot.add(buttonIcon[Idrag]);
-		Idrag++;
+		buttonIcon[ig].addMouseListener((new mouseEventGame(buttonIcon[ig],charImage[ig],charIcon[ig])));
+		
+		
+
+	
+		charIconSlot.add(buttonIcon[ig]);
+		ig++;
 	}
+		/*buttonIcon[0].addMouseListener(new MouseAdapter() {     method variable cannot be used inner method
+		 * inner method should be expressed other class and instanciated 
+			@Override
+			public void mousePressed(MouseEvent e) {
+			
+			buttonIcon[0].setIcon(new ImageIcon(Main.class.getResource("/Images/"+cookieList.get(0).getCookieImage())));//new ImageIcon(Main.class.getResource("/Images/"+cookieList.get(1).getCookieIcon()));
+				System.out.println("clicked");	
+			}
+			
+		});
+		buttonIcon[1].addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent e) {
+			
+			buttonIcon[1].setIcon(new ImageIcon(Main.class.getResource("/Images/"+cookieList.get(1).getCookieImage())));//new ImageIcon(Main.class.getResource("/Images/"+cookieList.get(1).getCookieIcon()));
+				System.out.println("clicked");	
+			}
+			
+		});
+	*/
 	
 	//backLinePlacing
 	backLine.setBounds(10, 100, 400,600);
@@ -74,13 +99,13 @@ public GameScreen(){
 	int backLineNum = 0;
 	for(int i =0; i<cookieList.size(); i++ ) {
 		if(cookieList.get(i).getType().equals("back")){
-			charIcon[i]=  new ImageIcon(Main.class.getResource("/Images/"+cookieList.get(i).getCookieImage()));
-			buttonIcon[i] = new JButton(charIcon[i]);
-			buttonIcon[i].setVisible(true);
-			buttonIcon[i].setBorderPainted(false);
-			buttonIcon[i].setContentAreaFilled(false);
-			buttonIcon[i].setFocusPainted(false);
-			backLine.add(buttonIcon[i]);
+			charImage[i]=  new ImageIcon(Main.class.getResource("/Images/"+cookieList.get(i).getCookieImage()));
+			charButton[i] = new JButton(charImage[i]);
+			charButton[i].setVisible(true);
+			charButton[i].setBorderPainted(false);
+			charButton[i].setContentAreaFilled(false);
+			charButton[i].setFocusPainted(false);
+			backLine.add(charButton[i]);
 			backLineNum++;
 		}else continue;
 		backLine.setLayout(new GridLayout(backLineNum,1, 20, 70));
@@ -92,13 +117,13 @@ public GameScreen(){
 	int frontLineNum = 0;
 	for(int i =0; i<cookieList.size(); i++ ) {
 		if(cookieList.get(i).getType().equals("front")){
-			charIcon[i]=  new ImageIcon(Main.class.getResource("/Images/"+cookieList.get(i).getCookieImage()));
-			buttonIcon[i] = new JButton(charIcon[i]);
-			buttonIcon[i].setVisible(true);
-			buttonIcon[i].setBorderPainted(false);
-			buttonIcon[i].setContentAreaFilled(false);
-			buttonIcon[i].setFocusPainted(false);
-			frontLine.add(buttonIcon[i]);
+			charImage[i]=  new ImageIcon(Main.class.getResource("/Images/"+cookieList.get(i).getCookieImage()));
+			charButton[i] = new JButton(charImage[i]);
+			charButton[i].setVisible(true);
+			charButton[i].setBorderPainted(false);
+			charButton[i].setContentAreaFilled(false);
+			charButton[i].setFocusPainted(false);
+			frontLine.add(charButton[i]);
 			backLineNum++;
 		}else continue;
 		frontLine.setLayout(new GridLayout(frontLineNum,1, 20, 70));
