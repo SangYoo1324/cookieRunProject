@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -15,57 +16,58 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionAdapter;
 
 
-public class GameScreen {
+public class GameScreen extends Thread {
 private Image fieldImage = new ImageIcon(Main.class.getResource("/Images/fieldImage.png")).getImage();
 JPanel charIconSlot = new JPanel();
 JPanel frontLine = new JPanel();
 JPanel backLine =  new JPanel();
 JPanel monsterLine = new JPanel();
-ArrayList<cookie> cookieList = new ArrayList<cookie>();
-ArrayList<Monster> monsterList = new ArrayList<Monster>();
+JPanel monsterHpPanel = new JPanel();
 
+//private ImageIcon monsterHpBar = new ImageIcon(Main.class.getResource("/Images/hpBar.png"));
+
+//ArrayList<cookie> cookieList = new ArrayList<cookie>();		moved to the mapScreen
+//ArrayList<Monster> monsterList = new ArrayList<Monster>();  moved to the mapScreen
+
+mapScreen ms = new mapScreen();
+
+//skillRelated
+public static boolean isSkillProceed= false;
+
+private String skillName =ms.cookieList.get(0).getSkill2();
+
+public skillInfo si = new skillInfo(skillName);
 
 
 private int mouseX, mouseY;
 //public int Idrag=0;
 public GameScreen(){
 	
-//cookie Infos inside the ArrayList
-	cookieList.add(new cookie("frostQueen","frostQueen.png","frostQueenIcon.png","Freeze","Zero", 10, 100,"back") );
-	cookieList.add(new cookie("eclair","elcair.png","eclairIcon.png","amplify","Shield", 10, 100,"front") );
-	cookieList.add(new cookie("pureVanilla","pureVanilla.png","pureVanillaIcon.png","heal","defBuff", 10, 100, "back") );
-	cookieList.add(new cookie("holyBerry","holyBerry.png","holyBerryIcon.png","selfHeal","dmgReduction", 10, 100,"front") );
-	cookieList.add(new cookie("mokka","mokka.png","mokkaIcon.png","dotHeal","dmgReduction", 10, 100,"back") );
+//cookie Infos inside the ArrayList-- moved to the mapScreen
 
 	
-	monsterList.add(new Monster("blueMonster.png","defaultAttack",10,100,"back"));
-	monsterList.add(new Monster("doggieMonster.png","defaultAttack",10,100,"back"));
-	monsterList.add(new Monster("doggieMonster.png","defaultAttack",10,100,"back"));
-	monsterList.add(new Monster("doggieMonster.png","defaultAttack",10,100,"back"));
-	monsterList.add(new Monster("doggieMonster.png","defaultAttack",10,100,"back"));
-	
-	ImageIcon charImage[] = new ImageIcon[cookieList.size()];
-	ImageIcon charIcon[] = new ImageIcon[cookieList.size()];
-	JButton buttonIcon[]  = new JButton[cookieList.size()];
-	JButton charButton[] = new JButton[cookieList.size()];
+	ImageIcon charImage[] = new ImageIcon[ms.cookieList.size()];
+	ImageIcon charIcon[] = new ImageIcon[ms.cookieList.size()];
+	JButton buttonIcon[]  = new JButton[ms.cookieList.size()];
+	JButton charButton[] = new JButton[ms.cookieList.size()];
 	//charIconSlot
-	charIconSlot.setLayout(new GridLayout(1,cookieList.size(), 1, 1));
+	charIconSlot.setLayout(new GridLayout(1,ms.cookieList.size(), 1, 1));
 	charIconSlot.setBounds(600, 600, 500,400);
 	charIconSlot.setBackground(new Color(0,0,0,0));
 	//charIconSlot.setVisible(true);
 	
 	int ig =0;
-		while(ig<cookieList.size()) {
-		charIcon[ig]=  new ImageIcon(Main.class.getResource("/Images/"+cookieList.get(ig).getCookieIcon()));
-		charImage[ig]= new ImageIcon(Main.class.getResource("/Images/"+cookieList.get(ig).getCookieImage()));
+		while(ig<ms.cookieList.size()) {
+		charIcon[ig]=  new ImageIcon(Main.class.getResource("/Images/"+ms.cookieList.get(ig).getCookieIcon()));
+		charImage[ig]= new ImageIcon(Main.class.getResource("/Images/"+ms.cookieList.get(ig).getCookieImage()));
 		buttonIcon[ig] = new JButton(charIcon[ig]);
 		buttonIcon[ig].setVisible(true);
 		buttonIcon[ig].setBorderPainted(false);
 		buttonIcon[ig].setContentAreaFilled(false);
 		buttonIcon[ig].setFocusPainted(false);
 	
-		buttonIcon[ig].addMouseListener((new mouseEventGame(buttonIcon[ig],charImage[ig],charIcon[ig])));
-		
+		buttonIcon[ig].addMouseListener((new mouseEventGame(buttonIcon[ig],charImage[ig],charIcon[ig],ms.cookieList.get(ig).getSkill2())));
+	
 		
 
 	
@@ -97,9 +99,9 @@ public GameScreen(){
 	backLine.setBounds(10, 100, 400,600);
 	backLine.setBackground(new Color(0,0,0,0));
 	int backLineNum = 0;
-	for(int i =0; i<cookieList.size(); i++ ) {
-		if(cookieList.get(i).getType().equals("back")){
-			charImage[i]=  new ImageIcon(Main.class.getResource("/Images/"+cookieList.get(i).getCookieImage()));
+	for(int i =0; i<ms.cookieList.size(); i++ ) {
+		if(ms.cookieList.get(i).getType().equals("back")){
+			charImage[i]=  new ImageIcon(Main.class.getResource("/Images/"+ms.cookieList.get(i).getCookieImage()));
 			charButton[i] = new JButton(charImage[i]);
 			charButton[i].setVisible(true);
 			charButton[i].setBorderPainted(false);
@@ -115,9 +117,9 @@ public GameScreen(){
 	frontLine.setBounds(300, 100, 500,600);
 	frontLine.setBackground(new Color(0,0,0,0));
 	int frontLineNum = 0;
-	for(int i =0; i<cookieList.size(); i++ ) {
-		if(cookieList.get(i).getType().equals("front")){
-			charImage[i]=  new ImageIcon(Main.class.getResource("/Images/"+cookieList.get(i).getCookieImage()));
+	for(int i =0; i<ms.cookieList.size(); i++ ) {
+		if(ms.cookieList.get(i).getType().equals("front")){
+			charImage[i]=  new ImageIcon(Main.class.getResource("/Images/"+ms.cookieList.get(i).getCookieImage()));
 			charButton[i] = new JButton(charImage[i]);
 			charButton[i].setVisible(true);
 			charButton[i].setBorderPainted(false);
@@ -133,26 +135,49 @@ public GameScreen(){
 	
 //monsterPlacing
 	
-	monsterLine.setLayout(new GridLayout(monsterList.size(),1, 20, 20));
+	monsterLine.setLayout(new GridLayout(1,ms.monsterList.size(), 20, 20));
 	monsterLine.setBounds(1000, 100, 500,700);
 	monsterLine.setBackground(new Color(0,0,0,0));
-	ImageIcon monsterIcon[] = new ImageIcon[monsterList.size()];
-	JButton monsterbuttonIcon[]  = new JButton[monsterList.size()];
-	for(int i = 0; i<monsterList.size(); i++) {
-		monsterIcon[i]=  new ImageIcon(Main.class.getResource("/Images/"+monsterList.get(i).getMonsterImage()));
+	
+	//monsterHpPanel.setLayout(new GridLayout(1,ms.monsterList.size(), 20, 20));
+	//monsterHpPanel.setBounds(1000, 350, 500,30);
+	//monsterHpPanel.setBackground(new Color(0,0,0,0));
+	
+	
+	ImageIcon monsterIcon[] = new ImageIcon[ms.monsterList.size()];
+	JButton monsterbuttonIcon[]  = new JButton[ms.monsterList.size()];
+	//JLabel monsterHpLine[] = new JLabel [ms.monsterList.size()];
+	
+	
+	for(int i = 0; i<ms.monsterList.size(); i++) {
+		
+	//	monsterHpLine[i] = new JLabel(monsterHpBar);
+	//	monsterHpLine[i].setVisible(true);
+	//	monsterHpPanel.add(monsterHpLine[i]);
+		
+		monsterIcon[i]=  new ImageIcon(Main.class.getResource("/Images/"+ms.monsterList.get(i).getMonsterImage()));
 		monsterbuttonIcon[i] = new JButton(monsterIcon[i]);
 		monsterbuttonIcon[i].setVisible(true);
 		monsterbuttonIcon[i].setBorderPainted(false);
 		monsterbuttonIcon[i].setContentAreaFilled(false);
 		monsterbuttonIcon[i].setFocusPainted(false);
 		monsterLine.add(monsterbuttonIcon[i]);
+		
+	
+
 	}
 	
+	
 }
+
+
+
 public void screenDraw(Graphics g) {
 	g.drawImage(fieldImage,0,0,null);
-
+	if(isSkillProceed)
+	si.screenDraw(g);
 	
+	//Monster Hp Icons
 
 
 }

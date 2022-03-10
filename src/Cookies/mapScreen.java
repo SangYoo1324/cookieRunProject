@@ -9,6 +9,7 @@ import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -18,6 +19,8 @@ import javax.swing.JTextField;
 
 public class mapScreen extends JFrame {
 	JPanel mapSelectionPanel;
+	ArrayList<cookie> cookieList = new ArrayList<cookie>();
+	ArrayList<Monster> monsterList = new ArrayList<Monster>();
 	private Image fieldImage = new ImageIcon(Main.class.getResource("/Images/fieldImage.png")).getImage();
 	public mapScreen(){
 		
@@ -26,6 +29,20 @@ public class mapScreen extends JFrame {
 		mapSelectionPanel.setBounds(300,300, 500,500);
 		mapSelectionPanel.setBackground(new Color(0,0,0,0));
 		//mapSelectionPanel.setVisible(true);
+		
+		cookieList.add(new cookie("frostQueen","frostQueen.png","frostQueenIcon.png","Freeze","Zero", 10, 100,"back") );
+		cookieList.add(new cookie("eclair","elcair.png","eclairIcon.png","amplify","Shield", 10, 100,"front") );
+		cookieList.add(new cookie("pureVanilla","pureVanilla.png","pureVanillaIcon.png","heal","defBuff", 10, 100, "back") );
+		cookieList.add(new cookie("holyBerry","holyBerry.png","holyBerryIcon.png","selfHeal","dmgReduction", 10, 100,"front") );
+		cookieList.add(new cookie("mokka","mokka.png","mokkaIcon.png","dotHeal","dmgReduction", 10, 100,"back") );
+
+		
+		monsterList.add(new Monster("blueMonster.png","defaultAttack",10,100,"back"));
+		monsterList.add(new Monster("doggieMonster.png","defaultAttack",10,100,"back"));
+		monsterList.add(new Monster("doggieMonster.png","defaultAttack",10,100,"back"));
+		monsterList.add(new Monster("doggieMonster.png","defaultAttack",10,100,"back"));
+		monsterList.add(new Monster("doggieMonster.png","defaultAttack",10,100,"back"));
+		
 		
 		String[] mapName = {"Chapter1","Chapter2","Chapter3","Chapter4","Chapter5","Chapter6","Chapter7","Chapter8","Chapter9"};
 		JButton mapbuttons[] = new JButton[mapName.length];

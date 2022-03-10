@@ -42,6 +42,8 @@ mapScreen ms = new mapScreen();
 GameScreen gs = new GameScreen();
 
 
+
+
 public static  boolean isStageSelect = false;
 public static boolean isGameScreen = false;
 public static boolean isMainScreen =true;
@@ -246,6 +248,7 @@ public void gameScreenDraw() {
 	add(gs.backLine);
 	add(gs.frontLine);
 	add(gs.monsterLine);
+	add(gs.monsterHpPanel);
 		
 }
 }
